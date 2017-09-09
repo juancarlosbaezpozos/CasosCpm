@@ -1,0 +1,192 @@
+<!-- Main content-->
+<section class="content" ng-controller="resumenCtrl as vm">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="view-header">
+                    <div class="pull-right text-right" style="line-height: 14px">
+                        <small>Resumén de Incidentes<br> <span class="c-white">v.1.0</span></small>
+                    </div>
+                    <div class="header-icon">
+                        <!--<i class="pe page-header-icon pe-7s-piggy"></i>-->
+                        <i class="pe page-header-icon icon-cpm" style="font-size: 80px;"></i>
+                    </div>
+                    <div class="header-title">
+                        <h3 class="m-b-xs">Caja Popular Mexicana</h3>
+                        <small>
+                                    Portal para el seguimiento de incidencias en el corporativo.
+                                </small>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+        <div ng-init="RetrieveIncidents()" class="row">
+            <div class="col-lg-2 col-xs-6">
+                <div id="pnlActivos" class="panel panel-filled" ng-class="{glow: hovera}" ng-mouseenter="hovera=true" ng-mouseleave="hovera=false"
+                    ng-click="vm.setFilter(0)">
+                    <div class="loader">
+                        <div class="loader-spin"></div>
+                    </div>
+                    <div class="panel-body">
+                        <h2 class="m-b-none">
+                            {{vm.incidentesActivos}} <span class="slight"><!--<i class="fa fa-play fa-rotate-270 text-warning"> </i> +20%--></span>
+                        </h2>
+                        <div class="small">Activos</div>
+                        <div class="slight m-t-sm"><i class="fa fa-clock-o"> </i> <span class="c-white">{{vm.fecha}}</span> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-xs-6">
+                <div id="pnlEnEspera" class="panel panel-filled" ng-class="{glow: hoverb}" ng-mouseenter="hoverb=true" ng-mouseleave="hoverb=false"
+                    ng-click="vm.setFilter(null,717810003)">
+                    <div class="loader">
+                        <div class="loader-spin"></div>
+                    </div>
+                    <div class="panel-body">
+                        <h2 class="m-b-none">
+                            {{vm.incidentesEnEspera}} <span class="slight"></span>
+                        </h2>
+                        <div class="small">En Espera</div>
+                        <div class="slight m-t-sm"><i class="fa fa-clock-o"> </i> <span class="c-white">{{vm.fecha}}</span> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-xs-6">
+                <div id="pnlResueltos" class="panel panel-filled" ng-class="{glow: hoverc}" ng-mouseenter="hoverc=true" ng-mouseleave="hoverc=false"
+                    ng-click="vm.setFilter(1)">
+                    <div class="loader">
+                        <div class="loader-spin"></div>
+                    </div>
+                    <div class="panel-body">
+                        <h2 class="m-b-none">
+                            {{vm.incidentesResueltos}} <span class="slight"></span>
+                        </h2>
+                        <div class="small">Resueltos</div>
+                        <div class="slight m-t-sm"><i class="fa fa-clock-o"> </i> <span class="c-white">{{vm.fecha}}</span> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-xs-6">
+                <div id="pnlCancelados" class="panel panel-filled" ng-class="{glow: hoverd}" ng-mouseenter="hoverd=true" ng-mouseleave="hoverd=false"
+                    ng-click="vm.setFilter(2)">
+                    <div class="loader">
+                        <div class="loader-spin"></div>
+                    </div>
+                    <div class="panel-body">
+                        <h2 class="m-b-none">
+                            {{vm.incidentesCancelados}} <span class="slight"></span>
+                        </h2>
+                        <div class="small">Cancelados</div>
+                        <div class="slight m-t-sm"><i class="fa fa-clock-o"> </i> <span class="c-white">{{vm.fecha}}</span> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-xs-6">
+                <div id="pnlAltaPrioridad" class="panel panel-filled">
+                    <div class="loader">
+                        <div class="loader-spin"></div>
+                    </div>
+                    <!--<div filter-tools></div>-->
+                    <div class="panel-body">
+                        <h2 class="m-b-none">
+                            {{vm.incidentesAltaPrioridad}} <span class="slight"><i class="fa fa-play fa-rotate-270 text-danger"> </i> </span>
+                        </h2>
+                        <div class="small">Alta Prioridad</div>
+                        <div class="slight m-t-sm"><i class="fa fa-clock-o"> </i> <span class="c-white">{{vm.fecha}}</span> </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pnlEstatus" class="col-lg-2 col-xs-12">
+                <div class="loader">
+                    <div class="loader-spin"></div>
+                </div>
+                <div class="panel panel-c-info" style="position:relative;height: 112px" ng-if="vm.tablero=='desconocido'">
+                    <div class="panel-body text-center p-m">
+                        <h2 class="font-light">
+                            DESC.
+                        </h2>
+                        <small>Nivel: Desconocido</small>
+                    </div>
+                </div>
+                <div class="panel panel-b-success" style="position:relative;height: 112px" ng-if="vm.tablero=='verde'">
+                    <div class="panel-body text-center p-m">
+                        <h2 class="font-light">
+                            OPTIMO
+                        </h2>
+                        <small>Nivel: </small><span class="slight"><i class="fa fa-play fa-rotate-270 c-white"> </i> 60%</span>
+                    </div>
+                </div>
+                <div class="panel panel-b-warning" style="position:relative;height: 112px" ng-if="vm.tablero=='amarillo'">
+                    <div class="panel-body text-center p-m">
+                        <h2 class="font-light">
+                            DEF.
+                        </h2>
+                        <small>Nivel: </small><span class="slight"><i class="fa fa-play fa-rotate-90 c-white"> </i> 60%</span>
+                    </div>
+                </div>
+                <div class="panel panel-b-danger" style="position:relative;height: 112px" ng-if="vm.tablero=='rojo'">
+                    <div class="panel-body text-center p-m">
+                        <h2 class="font-light">
+                            CRITICO
+                        </h2>
+                        <small>Nivel: </small><span class="slight"><i class="fa fa-play fa-rotate-90 c-white"> </i> 30%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-init="RetrieveIncidentsTable()" class="row">
+            <div class="col-md-12">
+                <div id="historial" class="panel panel-filled">
+                    <div class="loader">
+                        <div class="loader-spin"></div>
+                    </div>
+                    <div class="panel-heading">
+                        <div panel-tools></div>
+                        Historial de Incidentes
+                    </div>
+                    <div class="panel-body">
+                        <p ng-show="vm.filterApplied">
+                            La información presentada esta filtrada. <a ng-click="RetrieveIncidentsTable()">Eliminar Filtro</a>
+                        </p>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover" datatable="ng" dt-options="vm.dtOptions" dt-column-defs="vm.dtColumns">
+                                <thead>
+                                    <tr>
+                                        <th>Número de Caso</th>
+                                        <th>Título</th>
+                                        <th>Proyecto</th>
+                                        <th>Estatus</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="incidente in vm.incidentes">
+                                        <td fixed-width="160">
+                                            <a ui-sref="main.detalle({incidenteId: incidente.incidentid})">{{ incidente.ticketnumber }}</a>
+                                            <div class="small"><i class="fa fa-clock-o"></i> {{ incidente.createdon }}</div>
+                                        </td>
+                                        <td fixed-width="200">{{ incidente.title }}</td>
+                                        <td>{{ incidente.project }}</td>
+                                        <td ng-if="incidente.statecode ==1">
+                                            <span class="label label-success">Resuelto</span>
+                                        </td>
+                                        <td ng-if="incidente.statecode ==0">
+                                            <span class="label label-default">Activo</span>
+                                        </td>
+                                        <td ng-if="incidente.statecode ==2">
+                                            <span class="label label-danger">Cancelado</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End main content-->

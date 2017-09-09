@@ -1,0 +1,119 @@
+<!-- Main content-->
+<section class="content" ng-controller="resumenDetalleCtrl as vm" ng-init="RetrieveDetails()">
+    <div class="container-fluid">
+        <div class="row m-t-sm">
+            <div class="col-md-12">
+                <div class="panel panel-filled">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="media">
+                                    <!-- <i class="pe pe-7s-bandaid c-accent fa-3x"></i>-->
+                                    <h2 class="m-t-xs m-b-none">
+                                        {{vm.ticketnumber}}
+                                    </h2>
+                                    <small>
+                                            {{vm.description}}
+                                        </small><br/><br/>
+                                    <small>
+                                            {{vm.createdon}} -- {{vm.modifiedon}}
+                                        </small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <table class="table small m-t-sm">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <strong class="c-white">Prioridad: </strong> {{vm.prioritycode}}
+                                            </td>
+                                            <td>
+                                                <strong class="c-white">Estado: </strong> {{vm.statuscode}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong class="c-white">Origen: </strong> {{vm.caseorigincode}}
+                                            </td>
+                                            <td>
+                                                <strong class="c-white">Propietario: </strong> {{vm.owner}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <strong class="c-white">Se Presenta: </strong> {{vm.lugar}}
+                                            </td>
+                                            <td>
+                                                <strong class="c-white">Nivel de Atención: </strong> {{vm.nivelatencion}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-3 m-t-sm">
+                                <span class="c-white">
+                                        Acciones Sugeridas
+                                    </span>
+                                <br>
+                                <small>
+                                        Si así lo requiere puede solicitar el contacto de un representante o reabrir el caso.
+                                    </small><br/>
+                                <div class="btn-group m-t-sm">
+                                    <a href="mailto:ramon.martinez@rhinosystems.mx" class="btn btn-default btn-sm"><i class="fa fa-envelope"></i> Contacto</a>
+                                    <!--<a href="#" class="btn btn-default btn-sm"><i class="fa fa-check"></i> Reabrir</a>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel">
+                    <div class="panel-body">
+                        <h4> Actividad del Caso</h4>
+                        <div class="v-timeline vertical-container">
+                            <div class="vertical-timeline-block" ng-repeat="activity in vm.activities">
+                                <div class="vertical-timeline-icon">
+                                    <i class="fa fa-file"></i>
+                                </div>
+                                <div class="vertical-timeline-content">
+                                    <div class="p-sm">
+                                        <span class="vertical-date pull-right">
+                                            <small>{{activity.createdon}}</small><br/>
+                                            <a ui-sref="main.detalle.nota({notaId: activity.activityid})">Ver Nota</a>
+                                        </span>
+                                        <h2>{{activity.activitytypecode}}</h2>
+                                        <p>{{activity.subject}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div ui-view></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-filled">
+                    <div class="panel-body">
+                        <div class="row">
+                            <h4>Solución: {{vm.resolutionsubject}}</h4>
+
+                            <p class="small"> {{ vm.resolutiondescription}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- End main content-->
